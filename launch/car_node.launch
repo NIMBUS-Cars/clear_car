@@ -2,4 +2,7 @@
     <rosparam command="load" file="$(find clear_car)/settings.yaml"/>
     <node pkg="clear_car" name="real_car_lane_follow" type="real_car_lane_follow" output="screen">
     </node>
+    <node pkg="clear_car" name="safety_node" type="safety_node" output="screen">
+    </node>
+    
 </launch>
