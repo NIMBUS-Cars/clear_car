@@ -1,4 +1,4 @@
-/nav_drive_topic: "/brake"
+/nav_drive_topic: "/nav"
 /camera_height: 256
 /camera_width: 256
 /camera_topic: "/camera/color/image_raw"
