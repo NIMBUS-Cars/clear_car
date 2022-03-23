@@ -13,7 +13,7 @@ Ackermann_drive_result = AckermannDriveStamped()
 
 pub1 = rospy.Publisher('/brake_bool', Bool, queue_size = 10)
 pub2 = rospy.Publisher('/brake', AckermannDriveStamped, queue_size = 10)
-ROS_INFO("Testing for clear car")
+rospy.loginfo("Testing for clear car")
 
 # TODO: import ROS msg types and libraries
 
