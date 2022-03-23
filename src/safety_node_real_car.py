@@ -41,6 +41,7 @@ class Safety(object):
         min_TTC = 100
 
         for x in range(len(self.lidar_ranges)):
+	    ROS_INFO("Testing for clear car")
             if (not (math.isinf(self.scan_msg.ranges[x])) and not (math.isnan(self.scan_msg.ranges[x]))):
                 # self.distance = self.lidar_ranges[x]
                 # self.angle = self.lidar_angle_min + self.lidar_angle_increment * x
