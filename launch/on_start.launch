@@ -1,4 +1,4 @@
 <launch>
   <include file="$(find car)/launch/semantic_segmentation.launch" />
-<!--   <include file="$(find car)/launch/object_detection.launch" /> -->
+  <!-- <include file="$(find car)/launch/object_detection.launch" /> -->
 </launch>

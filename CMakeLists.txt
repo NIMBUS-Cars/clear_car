@@ -37,16 +37,16 @@ add_executable(semantic_segmentation src/semantic_segmentation/semantic_segmenta
 add_dependencies(semantic_segmentation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(semantic_segmentation ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
 
-add_executable(car_tracker src/car_tracker/car_tracker.cpp)
-add_dependencies(car_tracker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(car_tracker ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
+# add_executable(car_tracker src/car_tracker/car_tracker.cpp)
+# add_dependencies(car_tracker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(car_tracker ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
 
 
-catkin_install_python(PROGRAMS
-  scripts/car/object_detection/object_detection.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-catkin_install_python(PROGRAMS
-  scripts/car/semantic_segmentation/semantic_segmentation.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# catkin_install_python(PROGRAMS
+#   scripts/car/object_detection/object_detection.py
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+# catkin_install_python(PROGRAMS
+#   scripts/car/semantic_segmentation/semantic_segmentation.py
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )

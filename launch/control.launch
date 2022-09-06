@@ -1,5 +1,5 @@
 <launch>
-    <rosparam command="load" file="$(find black_car)/config/settings.yaml"/>
-    <node pkg="black_car" name="control" type="control" output="screen">
+    <rosparam command="load" file="$(find car)/config/control_settings.yaml"/>
+    <node pkg="car" name="control" type="control" output="screen">
     </node>
 </launch>

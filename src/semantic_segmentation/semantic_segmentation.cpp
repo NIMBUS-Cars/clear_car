@@ -50,7 +50,6 @@ class SemanticSegmentation{
       
       // Load pytorch model
       try {
-        string test = model_folder + semantic_segmentation_module_path;
         semantic_segmentation_module = torch::jit::load(model_folder + semantic_segmentation_module_path);
         semantic_segmentation_module.to(device);
         semantic_segmentation_module.eval();
