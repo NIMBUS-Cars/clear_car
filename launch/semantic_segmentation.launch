@@ -1,12 +1,12 @@
 <launch>
-    <!-- <group ns="semantic_segmentation_node">
+    <group ns="semantic_segmentation_node">
         <rosparam command="load" file="$(find car)/config/semantic_segmentation_settings.yaml"/>
         <node pkg="car" name="semantic_segmentation" type="semantic_segmentation" output="screen">
         </node>
-    </group> -->
-    <group ns="semantic_segmentation_node">
+    </group>
+<!--     <group ns="semantic_segmentation_node">
         <rosparam command="load" file="$(find car)/config/semantic_segmentation_settings.yaml"/>
         <node pkg="car" name="semantic_segmentation" type="semantic_segmentation.py" output="screen">
         </node>
-    </group>
+    </group> -->
 </launch>
