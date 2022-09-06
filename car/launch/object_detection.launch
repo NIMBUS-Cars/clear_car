@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find car)/config/object_detection_settings.yaml"/>
+    <node pkg="car" name="object_detection" type="object_detection.py" output="screen">
+    </node>
+</launch>

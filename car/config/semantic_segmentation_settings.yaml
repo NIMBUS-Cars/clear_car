@@ -1,0 +1,9 @@
+network_width: 256
+network_height: 256
+viewing_width: 1280
+viewing_height: 720
+semantic_segmentation_output_topic: "/semantic_segmentation/output_image"
+camera_topic: "/camera/color/image_raw"
+semantic_segmentation_module_path: "converted_jit_model.pt"
+view_image: false
+semantic_segmentation_python_module_path: "models/semantic_segmentation/train_network.pth"

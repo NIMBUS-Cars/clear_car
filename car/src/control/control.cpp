@@ -9,45 +9,41 @@
 #include <ackermann_msgs/AckermannDrive.h>
 #include "torch/torch.h"
 #include "torch/script.h"
-#include "clear_car/CarObject.h"
-#include "clear_car/CarObjects.h"
 
 using namespace std;
 using namespace cv;
 torch::Device device(torch::kCUDA);
+
 class LaneFollower{
     private:
     ros::NodeHandle n;
     image_transport::ImageTransport image_transport;
     image_transport::Subscriber image_sub_;
-    image_transport::Publisher image_pub_;
     ros::Publisher drive_pub;
     torch::jit::script::Module semanticSegmentationModule;
     torch::jit::script::Module laneFollowModule;
     torch::jit::script::Module speedControllerModule;
-    ros::Publisher object_detection_pub;
+
     int camera_height,camera_width;
-    int desiredX = 256,desiredY=256;
+    int desiredX = 256,desiredY = 256;
     int outputX = 1280, outputY = 720;
     bool fastMode;
     public:
     LaneFollower():image_transport(n) {
         n = ros::NodeHandle("~");
-         n.getParam("/camera_height",camera_height);
-         n.getParam("/camera_width",camera_width);
-         std::string drive_topic, camera_topic, semanticSegmentationPath, laneFollowPath, imageOutput, object_detection_topic,speedControllerPath;
-         n.getParam("/in_fast_mode",fastMode);
-         n.getParam("/camera_topic",camera_topic);
-        image_sub_ = image_transport.subscribe(camera_topic, 1, &LaneFollower::image_callback, this);
-         n.getParam("/nav_drive_topic", drive_topic);
-        drive_pub = n.advertise<ackermann_msgs::AckermannDriveStamped>(drive_topic, 10);
+        std::string drive_topic, camera_topic, semanticSegmentationPath, laneFollowPath, imageOutput, object_detection_topic,speedControllerPath;
+        n.getParam("/camera_height",camera_height);
+        n.getParam("/camera_width",camera_width);
+        n.getParam("/in_fast_mode",fastMode);
+        n.getParam("/camera_topic",camera_topic);
+        n.getParam("/nav_drive_topic", drive_topic);
         n.getParam("/semantic_segmentation_path",semanticSegmentationPath);
         n.getParam("/lane_follow_path",laneFollowPath);
         n.getParam("/speed_controller_path",speedControllerPath);
-        n.getParam("/image_output",imageOutput);
-        image_pub_ = image_transport.advertise(imageOutput, 1);
-        n.getParam("/object_detection_topic",object_detection_topic);
-        object_detection_pub = n.advertise<clear_car::CarObjects>(object_detection_topic,10);
+
+        image_sub_ = image_transport.subscribe(camera_topic, 1, &LaneFollower::image_callback, this);
+        drive_pub = n.advertise<ackermann_msgs::AckermannDriveStamped>(drive_topic, 10);
+        
         // Load pytorch model
         try {
           semanticSegmentationModule = torch::jit::load(semanticSegmentationPath);
@@ -73,8 +69,7 @@ class LaneFollower{
       cv_bridge::CvImagePtr cv_ptr;
       Mat outputMat;
       double steeringAngle = 0;
-      double carSpeed = 0;//1,75
-      red_car::CarObjects objectsDetected;
+      double carSpeed = 0;
       bool foundCar = false;
       long minX= 256;
       long maxX=0;
@@ -142,7 +137,7 @@ class LaneFollower{
       //PREPARE FOR CAMERA OUTPUT
       //DISABLE WHEN RUNNING EXPERIMENTS
       at::Tensor prediction = output.permute({1,2,0});
-      prediction=prediction.mul(80).clamp(0,255).to(torch::kU8).to(torch::kCPU); // add .mul(80) for visualization
+      prediction=prediction.mul(80).clamp(0,255).to(torch::kU8).to("cpu"); // add .mul(80) for visualization
       Mat predictionMat(cv::Size(desiredX, desiredY), CV_8UC1, prediction.data_ptr<uchar>());
       cv::resize(predictionMat,outputMat,Size(outputX,outputY));
     }
@@ -160,65 +155,16 @@ class LaneFollower{
         if(carSpeed<0){
           carSpeed = 0;
         }
-        if(carSpeed<=1.0){
-          steeringAngle = steeringAngle / 0.75 * 0.9;
-        }
-        drive_msg.steering_angle = steeringAngle*-0.75;
         carSpeed = carSpeed+0.75;
         drive_msg.speed = carSpeed;
     }else{
-        drive_msg.steering_angle = steeringAngle*-1 * 0.8; // was * 0.8 for normal speed
         drive_msg.speed = carSpeed;
     }
+    drive_msg.steering_angle = steeringAngle;
     ROS_INFO("Steering Angle %s",std::to_string(steeringAngle).c_str());
     ROS_INFO("Speed %s",std::to_string(carSpeed).c_str());
     drive_st_msg.drive = drive_msg;
     drive_pub.publish(drive_st_msg);
-
-    //PUBLISH OBJECT DETECTION DATA
-    //TEST DATA
-    clear_car::CarObject testObject;
-    if(foundCar){
-      testObject.classID = 2;
-      testObject.minX = minX;
-      testObject.maxX = maxX;
-      testObject.minY = minY;
-      testObject.maxY = maxY;
-      objectsDetected.objects.push_back(testObject);
-    }
-    object_detection_pub.publish(objectsDetected);
-
-    //Upload Mat Image as ROS TOPIC 
-    cv_bridge::CvImage out_msg;
-    out_msg.header   = msg->header; 
-    out_msg.encoding = sensor_msgs::image_encodings::TYPE_8UC1; 
-    out_msg.image    = outputMat;
-
-    //Upload Mat Image For Recording
-    //DISABLE WHEN PERFORMING TESTS
-    // Mat rosMsgMat;
-    // cvtColor(outputMat,rosMsgMat,COLOR_GRAY2BGR);
-    // cv::putText(rosMsgMat, //target image
-    //         "Steering Angle in Degrees: "+to_string(drive_msg.steering_angle*180.0/3.1415926), //text
-    //         cv::Point(10, 80), //top-left position
-    //         cv::FONT_HERSHEY_DUPLEX,
-    //         1.0,
-    //         CV_RGB(118, 185, 0), //font color
-    //         2);
-    // cv::putText(rosMsgMat, //target image
-    //         "Speed in M/S: "+to_string(drive_msg.speed), //text
-    //         cv::Point(10, 140), //top-left position
-    //         cv::FONT_HERSHEY_DUPLEX,
-    //         1.0,
-    //         CV_RGB(118, 185, 0), //font color
-    //         2);
-    // cv_bridge::CvImage out_msg;
-    // out_msg.header   = msg->header; 
-    // out_msg.encoding = sensor_msgs::image_encodings::BGR8; 
-    // out_msg.image    = rosMsgMat;
-
-    // Output modified video stream
-    image_pub_.publish(out_msg.toImageMsg());
   }
 };
 int main(int argc, char ** argv) {
