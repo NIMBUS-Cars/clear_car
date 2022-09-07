@@ -1,0 +1,5 @@
+/nav_drive_topic: "/vesc/high_level/ackermann_cmd_mux/input/nav_0"
+/camera_height: 256
+/camera_width: 256
+/camera_topic: "/camera/color/image_raw"
+lane_follow_file: "laneFollowerNetwork.pt"

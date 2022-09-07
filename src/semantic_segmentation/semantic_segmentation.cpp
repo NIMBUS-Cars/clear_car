@@ -67,7 +67,7 @@ class SemanticSegmentation{
       cv_bridge::CvImagePtr cv_ptr;
     try
     {
-      // cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGRA8);
+      //cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGRA8);
       cv_ptr = cv_bridge::toCvCopy(msg, "");
       Mat imageInRGB = cv_ptr->image;
       // cvtColor(cv_ptr->image,imageInRGB,COLOR_RGBA2RGB);
