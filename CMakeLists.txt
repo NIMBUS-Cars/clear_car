@@ -37,6 +37,11 @@ add_executable(semantic_segmentation src/semantic_segmentation/semantic_segmenta
 add_dependencies(semantic_segmentation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(semantic_segmentation ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
 
+add_executable(simple_lane_follow src/simple_lane_follow/simple_lane_follow.cpp)
+add_dependencies(simple_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(simple_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
+
+
 # add_executable(car_tracker src/car_tracker/car_tracker.cpp)
 # add_dependencies(car_tracker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # target_link_libraries(car_tracker ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
