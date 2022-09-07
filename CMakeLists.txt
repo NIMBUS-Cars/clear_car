@@ -45,6 +45,10 @@ add_executable(end_to_end_lane_follow src/end_to_end_lane_follow/end_to_end_lane
 add_dependencies(end_to_end_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(end_to_end_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
 
+add_executable(manual_lane_follow src/manual_lane_follow/manual_lane_follow.cpp)
+add_dependencies(manual_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(manual_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
+
 # add_executable(car_tracker src/car_tracker/car_tracker.cpp)
 # add_dependencies(car_tracker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # target_link_libraries(car_tracker ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 

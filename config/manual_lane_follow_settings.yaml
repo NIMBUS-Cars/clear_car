@@ -1,0 +1,2 @@
+/nav_drive_topic: "/vesc/high_level/ackermann_cmd_mux/input/nav_0"
+/camera_topic: "/camera/color/image_raw"

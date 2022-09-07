@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find car)/config/manual_lane_follow_settings.yaml"/>
+    <node pkg="car" name="manual_lane_follow" type="manual_lane_follow" output="screen">
+    </node>
+</launch>
