@@ -171,7 +171,7 @@ class LaneFollower{
         drive_msg.speed = carSpeed;
     }
     //TEMP SLOW DOWN
-    drive_msg.speed = 0.8
+    drive_msg.speed = 0.8;
     ROS_INFO("Steering Angle %s",std::to_string(steeringAngle).c_str());
     ROS_INFO("Speed %s",std::to_string(carSpeed).c_str());
     drive_st_msg.drive = drive_msg;
