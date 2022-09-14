@@ -119,7 +119,7 @@ class LaneFollower{
     ackermann_msgs::AckermannDriveStamped drive_st_msg;
     ackermann_msgs::AckermannDrive drive_msg;
     drive_msg.steering_angle = steeringAngle;
-    drive_msg.speed = carSpeed;
+    drive_msg.speed = 0.7;//carSpeed;
     ROS_INFO("Steering Angle %s",std::to_string(steeringAngle).c_str());
     ROS_INFO("Speed %s",std::to_string(carSpeed).c_str());
     drive_st_msg.drive = drive_msg;
