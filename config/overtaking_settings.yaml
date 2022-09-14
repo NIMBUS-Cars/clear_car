@@ -13,6 +13,6 @@
 /max_decel: 1.7 # meters/second^2
 /scan_topic: "/scan"
 
-/speed_controller_path: "/home/ryan/ryan_brown_ws/src/car/models/overtaking/speedNetwork.pt"
-/semantic_segmentation_path: "/home/ryan/ryan_brown_ws/src/car/models/semantic_segmentation/converted_jit_model.pt"
-/lane_follow_path: "/home/ryan/ryan_brown_ws/src/car/models/overtaking/laneFollowerNetwork.pt"
+/speed_controller_path: "/home/car/f1tenth_ws/src/car/models/overtaking/speedNetwork.pt"
+/semantic_segmentation_path: "/home/car/f1tenth_ws/src/car/models/semantic_segmentation/converted_jit_model.pt"
+/lane_follow_path: "/home/car/f1tenth_ws/src/car/models/overtaking/laneFollowerNetwork.pt"
