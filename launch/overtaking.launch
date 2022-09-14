@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find car)/config/overtaking_settings.yaml"/>
+    <node pkg="car" name="overtaking" type="overtaking" output="screen">
+    </node>
+</launch>

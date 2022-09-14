@@ -1,6 +1,7 @@
 <launch>
-  <include file="$(find car)/launch/manual_lane_follow.launch" />
+  <!-- <include file="$(find car)/launch/manual_lane_follow.launch" /> -->
   <!-- <include file="$(find car)/launch/semantic_segmentation.launch" /> -->
   <!-- <include file="$(find car)/launch/simple_lane_follow.launch" /> -->
   <!-- <include file="$(find car)/launch/object_detection.launch" /> -->
+  <include file="$(find car)/launch/overtaking.launch" />
 </launch>
